@@ -61,6 +61,9 @@
 @property (nonatomic, retain) ParsedResult *result;
 @property (nonatomic, retain) OverlayView *overlayView;
 
+/* Prefered position of the capturing device. If set to AVCaptureDevicePositionUnspecified (= default) the default position will be used */
+@property (nonatomic, assign) AVCaptureDevicePosition preferredCaptureDevicePosition;
+
 - (id)initWithDelegate:(id<ZXingDelegate>)delegate showCancel:(BOOL)shouldShowCancel OneDMode:(BOOL)shouldUseoOneDMode;
 - (id)initWithDelegate:(id<ZXingDelegate>)scanDelegate showCancel:(BOOL)shouldShowCancel OneDMode:(BOOL)shouldUseoOneDMode showLicense:(BOOL)shouldShowLicense;
 

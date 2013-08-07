@@ -70,6 +70,7 @@
     self.wantsFullScreenLayout = YES;
     beepSound = -1;
     decoding = NO;
+    _preferredCaptureDevicePosition = AVCaptureDevicePositionUnspecified;
     OverlayView *theOverLayView = [[OverlayView alloc] initWithFrame:[UIScreen mainScreen].bounds 
                                                        cancelEnabled:showCancel 
                                                             oneDMode:oneDMode
@@ -327,6 +328,17 @@ static bool isIPad() {
 #if HAS_AVFF
   AVCaptureDevice* inputDevice =
       [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    
+  if (self.preferredCaptureDevicePosition != AVCaptureDevicePositionUnspecified) {
+    //Set to front if possible
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices) {
+      if ([device position] == self.preferredCaptureDevicePosition) {
+        inputDevice = device;
+      }
+    }
+  }
+    
   AVCaptureDeviceInput *captureInput =
       [AVCaptureDeviceInput deviceInputWithDevice:inputDevice error:nil];
   AVCaptureVideoDataOutput *captureOutput = [[AVCaptureVideoDataOutput alloc] init]; 
