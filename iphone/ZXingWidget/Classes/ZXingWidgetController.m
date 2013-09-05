@@ -333,14 +333,15 @@ static bool isIPad() {
     //Set to front if possible
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     for (AVCaptureDevice *device in devices) {
-      if ([device position] == self.preferredCaptureDevicePosition) {
+      if ([device position] == self.preferredCaptureDevicePosition && [AVCaptureDeviceInput deviceInputWithDevice:device error:nil] != nil) {
         inputDevice = device;
       }
     }
   }
     
+    NSError *error = nil;
   AVCaptureDeviceInput *captureInput =
-      [AVCaptureDeviceInput deviceInputWithDevice:inputDevice error:nil];
+      [AVCaptureDeviceInput deviceInputWithDevice:inputDevice error:&error];
   AVCaptureVideoDataOutput *captureOutput = [[AVCaptureVideoDataOutput alloc] init]; 
   captureOutput.alwaysDiscardsLateVideoFrames = YES; 
   [captureOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
